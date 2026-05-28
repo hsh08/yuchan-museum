@@ -1,8 +1,10 @@
 /* ===== 라파엘박물관 — 천상계 테마 ===== */
 :root {
-  --color-void: #050510;
-  --color-deep: #0a0a1f;
-  --color-twilight: #12122e;
+  --color-void: #020206;
+  --color-deep: #07080f;
+  --color-twilight: #11101a;
+  --color-wine: #180b12;
+  --color-emerald-night: #061611;
   --color-gold: #d4af37;
   --color-gold-light: #f5e6b8;
   --color-gold-dim: rgba(212, 175, 55, 0.35);
@@ -13,7 +15,7 @@
   --font-ko: "Noto Serif KR", serif;
   --header-height: 4.5rem;
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
-  --shadow-glow: 0 0 60px rgba(212, 175, 55, 0.15);
+  --shadow-glow: 0 0 70px rgba(212, 175, 55, 0.2);
   --frame-gold-bright: #faf0d0;
   --frame-gold-mid: #d4af37;
   --frame-gold-deep: #7a5c12;
@@ -42,7 +44,8 @@ body {
   font-size: 1.125rem;
   line-height: 1.7;
   color: var(--color-pearl);
-  background: var(--color-void);
+  background:
+    linear-gradient(180deg, #010104 0%, var(--color-void) 36%, #08070b 100%);
   overflow-x: hidden;
   min-height: 100vh;
 }
@@ -60,10 +63,35 @@ body {
   z-index: 1;
   pointer-events: none;
   background:
-    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(120, 90, 200, 0.18), transparent 55%),
-    radial-gradient(ellipse 60% 40% at 90% 30%, rgba(212, 175, 55, 0.08), transparent 50%),
-    radial-gradient(ellipse 50% 35% at 10% 70%, rgba(80, 120, 200, 0.1), transparent 45%),
-    linear-gradient(180deg, var(--color-void) 0%, var(--color-deep) 40%, var(--color-twilight) 100%);
+    linear-gradient(112deg, transparent 0 24%, rgba(245, 230, 184, 0.055) 31%, transparent 43%),
+    linear-gradient(70deg, transparent 0 58%, rgba(130, 98, 36, 0.08) 65%, transparent 77%),
+    radial-gradient(ellipse 110% 75% at 50% -24%, rgba(212, 175, 55, 0.16), transparent 54%),
+    radial-gradient(ellipse 80% 55% at 6% 58%, rgba(75, 20, 39, 0.22), transparent 62%),
+    radial-gradient(ellipse 72% 50% at 96% 46%, rgba(20, 78, 58, 0.15), transparent 60%),
+    linear-gradient(180deg, rgba(1, 1, 4, 0.92) 0%, rgba(7, 8, 15, 0.96) 44%, rgba(17, 16, 26, 0.98) 100%);
+}
+
+.aurora::before,
+.aurora::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+.aurora::before {
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: radial-gradient(ellipse 70% 58% at 50% 36%, black, transparent 76%);
+  opacity: 0.22;
+}
+
+.aurora::after {
+  background:
+    radial-gradient(ellipse 88% 66% at 50% 43%, transparent 32%, rgba(0, 0, 0, 0.58) 100%),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.28), transparent 24%, rgba(0, 0, 0, 0.44));
+  opacity: 0.95;
 }
 
 /* ===== 헤더 ===== */
@@ -78,9 +106,9 @@ body {
 }
 
 .site-header--scrolled {
-  background: rgba(5, 5, 16, 0.85);
+  background: rgba(2, 2, 6, 0.88);
   backdrop-filter: blur(16px);
-  box-shadow: 0 1px 0 var(--color-gold-dim);
+  box-shadow: 0 1px 0 rgba(212, 175, 55, 0.28), 0 18px 60px rgba(0, 0, 0, 0.38);
 }
 
 .nav {
@@ -158,8 +186,9 @@ body {
   width: min(90vw, 36rem);
   height: min(90vw, 36rem);
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(212, 175, 55, 0.2) 0%, transparent 65%);
-  filter: blur(40px);
+  background:
+    radial-gradient(circle, rgba(245, 230, 184, 0.2) 0%, rgba(212, 175, 55, 0.12) 34%, transparent 68%);
+  filter: blur(48px);
   animation: pulse-halo 6s ease-in-out infinite;
   pointer-events: none;
 }
@@ -196,6 +225,7 @@ body {
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  filter: drop-shadow(0 0 22px rgba(212, 175, 55, 0.2));
   opacity: 0;
   animation: fade-up 1s var(--ease-out) 0.4s forwards;
 }
@@ -234,7 +264,7 @@ body {
   padding: 1rem 2.5rem;
   text-decoration: none;
   border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: var(--shadow-glow);
+  box-shadow: var(--shadow-glow), 0 18px 42px rgba(0, 0, 0, 0.45);
   transition: transform 0.3s var(--ease-out), box-shadow 0.3s;
   opacity: 0;
   animation: fade-up 1s var(--ease-out) 0.85s forwards;
@@ -440,7 +470,9 @@ body {
   content: "";
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse 70% 50% at 50% 50%, rgba(212, 175, 55, 0.06), transparent 70%);
+  background:
+    linear-gradient(180deg, transparent 0%, rgba(245, 230, 184, 0.025) 34%, transparent 68%),
+    radial-gradient(ellipse 78% 54% at 50% 48%, rgba(212, 175, 55, 0.08), transparent 70%);
   pointer-events: none;
 }
 
@@ -488,8 +520,9 @@ body {
     0 0 0 1px rgba(255, 255, 255, 0.35) inset,
     0 0 0 2px var(--frame-gold-shadow),
     0 2px 4px rgba(0, 0, 0, 0.5),
-    0 28px 70px rgba(0, 0, 0, 0.55),
-    0 0 80px rgba(212, 175, 55, 0.2);
+    0 34px 90px rgba(0, 0, 0, 0.68),
+    0 0 90px rgba(212, 175, 55, 0.24),
+    0 0 160px rgba(120, 82, 28, 0.14);
   transition: box-shadow 0.5s var(--ease-out), transform 0.5s var(--ease-out);
 }
 
@@ -499,8 +532,9 @@ body {
     0 0 0 1px rgba(255, 255, 255, 0.4) inset,
     0 0 0 2px var(--frame-gold-shadow),
     0 4px 8px rgba(0, 0, 0, 0.45),
-    0 36px 90px rgba(0, 0, 0, 0.6),
-    0 0 100px rgba(212, 175, 55, 0.28);
+    0 42px 110px rgba(0, 0, 0, 0.7),
+    0 0 115px rgba(212, 175, 55, 0.34),
+    0 0 180px rgba(120, 82, 28, 0.18);
 }
 
 .luxury-frame__wood {
@@ -663,10 +697,11 @@ body {
   border-radius: 2px;
   background: linear-gradient(
     118deg,
-    rgba(255, 255, 255, 0.18) 0%,
-    transparent 38%,
+    rgba(255, 255, 255, 0.24) 0%,
+    rgba(255, 246, 214, 0.06) 22%,
+    transparent 40%,
     transparent 62%,
-    rgba(255, 255, 255, 0.05) 100%
+    rgba(255, 255, 255, 0.06) 100%
   );
   pointer-events: none;
   z-index: 4;
@@ -677,9 +712,13 @@ body {
   max-width: 36rem;
   text-align: center;
   padding: 2rem 2.5rem;
-  background: rgba(10, 10, 31, 0.55);
-  border: 1px solid var(--color-gold-dim);
-  backdrop-filter: blur(10px);
+  background:
+    linear-gradient(180deg, rgba(17, 16, 26, 0.78), rgba(5, 5, 10, 0.7));
+  border: 1px solid rgba(212, 175, 55, 0.28);
+  backdrop-filter: blur(14px);
+  box-shadow:
+    0 18px 60px rgba(0, 0, 0, 0.38),
+    inset 0 1px 0 rgba(245, 230, 184, 0.08);
 }
 
 .exhibit__era {
@@ -760,10 +799,11 @@ body {
 .visit__card {
   padding: 3rem;
   text-align: center;
-  background: rgba(18, 18, 46, 0.5);
-  border: 1px solid var(--color-gold-dim);
+  background:
+    linear-gradient(180deg, rgba(17, 16, 26, 0.78), rgba(5, 5, 10, 0.76));
+  border: 1px solid rgba(212, 175, 55, 0.28);
   backdrop-filter: blur(12px);
-  box-shadow: var(--shadow-glow);
+  box-shadow: var(--shadow-glow), 0 24px 80px rgba(0, 0, 0, 0.42);
 }
 
 .visit__title {

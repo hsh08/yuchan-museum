@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="라파엘박물관 — 천상의 갤러리에서 펼쳐지는 유찬의 영원한 작품들" />
+  <title>라파엘박물관 | Raphael Museum</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Noto+Serif+KR:wght@300;400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <canvas id="starfield" aria-hidden="true"></canvas>
+  <div class="aurora" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <nav class="nav" aria-label="주요 메뉴">
+      <a class="nav__brand" href="#hero">라파엘박물관</a>
+      <ul class="nav__links">
+        <li><a href="#about">소개</a></li>
+        <li><a href="#collection">소장품</a></li>
+        <li><a href="#visit">관람</a></li>
+      </ul>
+      <button class="nav__toggle" type="button" aria-label="메뉴 열기" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+  </header>
+
+  <main>
+    <section id="hero" class="hero">
+      <div class="hero__halo" aria-hidden="true"></div>
+      <p class="hero__eyebrow">Celestial Gallery · Est. MMXXVI</p>
+      <h1 class="hero__title">
+        <span class="hero__title-ko">라파엘박물관</span>
+        <span class="hero__title-en">Raphael Museum</span>
+      </h1>
+      <p class="hero__subtitle">
+        구름 위에 세워진 성전.<br />
+        인간 유찬의 모든 형상이, 영원히 빛나는 걸작으로 승화되었습니다.
+      </p>
+      <a class="hero__cta" href="#collection">전시관 입장</a>
+      <div class="hero__scroll" aria-hidden="true">
+        <span>Scroll</span>
+        <div class="hero__scroll-line"></div>
+      </div>
+    </section>
+
+    <section id="about" class="about">
+      <div class="about__inner">
+        <div class="about__label">About the Museum</div>
+        <h2 class="about__heading">천상계에 걸린<br />유일한 갤러리</h2>
+        <p class="about__text">
+          라파엘박물관은 지상의 순간을 천상의 예술로 번역하는 공간입니다.
+          각 작품은 금빛 프레임 안에서 고요히 호흡하며, 관람객에게
+          영원한 아름다움과 유쾌한 경외를 동시에 선사합니다.
+        </p>
+        <dl class="about__stats">
+          <div>
+            <dt>소장 작품</dt>
+            <dd id="artwork-count">13</dd>
+          </div>
+          <div>
+            <dt>전시 홀</dt>
+            <dd>천상의 원</dd>
+          </div>
+          <div>
+            <dt>관람 등급</dt>
+            <dd>모든 영혼</dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+
+    <section id="collection" class="collection">
+      <header class="collection__header">
+        <p class="collection__eyebrow">Permanent Collection</p>
+        <h2 class="collection__title">영원 소장품</h2>
+        <p class="collection__desc">아래로 스크롤하며 작품을 하나씩 감상하세요</p>
+      </header>
+      <nav id="exhibit-nav" class="exhibit-nav" aria-label="작품 목록"></nav>
+      <div id="gallery" class="exhibition"></div>
+    </section>
+
+    <section id="visit" class="visit">
+      <div class="visit__card">
+        <h2 class="visit__title">관람 안내</h2>
+        <ul class="visit__list">
+          <li><strong>운영</strong> 24시간 · 천상계 표준시</li>
+          <li><strong>입장료</strong> 무료 · 마음의 경의</li>
+          <li><strong>위치</strong> 구름 위 7층, 별빛 홀</li>
+        </ul>
+        <p class="visit__note">
+          본 박물관의 모든 작품은 라파엘의 축복 아래 보존됩니다.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>© 2026 라파엘박물관 · Raphael Museum. All radiance reserved.</p>
+  </footer>
+
+  <dialog id="lightbox" class="lightbox" aria-label="작품 상세 보기">
+    <button class="lightbox__close" type="button" aria-label="닫기">&times;</button>
+    <div class="lightbox__frame luxury-frame">
+      <span class="luxury-frame__corner luxury-frame__corner--tl" aria-hidden="true"></span>
+      <span class="luxury-frame__corner luxury-frame__corner--tr" aria-hidden="true"></span>
+      <span class="luxury-frame__corner luxury-frame__corner--bl" aria-hidden="true"></span>
+      <span class="luxury-frame__corner luxury-frame__corner--br" aria-hidden="true"></span>
+      <div class="luxury-frame__wood">
+        <div class="luxury-frame__mat">
+          <div class="luxury-frame__gilt">
+            <img id="lightbox-image" src="" alt="" />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="lightbox__info">
+      <p id="lightbox-era" class="lightbox__era"></p>
+      <h3 id="lightbox-title" class="lightbox__title"></h3>
+      <p id="lightbox-desc" class="lightbox__desc"></p>
+    </div>
+  </dialog>
+
+  <script src="js/artworks.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

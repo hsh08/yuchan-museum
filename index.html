@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="라파엘박물관 — 천상의 갤러리에서 펼쳐지는 유찬의 영원한 작품들" />
+  <meta name="description" content="라파엘박물관은 유찬의 학창시절, 라파엘 교단, 성스러운 종교 작품을 전시하는 온라인 갤러리입니다." />
   <title>라파엘박물관 | Raphael Museum</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -19,7 +19,7 @@
       <a class="nav__brand" href="#hero">라파엘박물관</a>
       <ul class="nav__links">
         <li><a href="#about">소개</a></li>
-        <li><a href="#collection">소장품</a></li>
+        <li><a href="#collection">전시관</a></li>
         <li><a href="#visit">관람</a></li>
       </ul>
       <button class="nav__toggle" type="button" aria-label="메뉴 열기" aria-expanded="false">
@@ -37,8 +37,8 @@
         <span class="hero__title-en">Raphael Museum</span>
       </h1>
       <p class="hero__subtitle">
-        구름 위에 세워진 성전.<br />
-        인간 유찬의 모든 형상이, 영원히 빛나는 걸작으로 승화되었습니다.
+        학창시절의 기록에서 교단의 연대기까지.<br />
+        유찬의 모든 형상이 세 개의 전시관에서 하나의 신화로 이어집니다.
       </p>
       <a class="hero__cta" href="#collection">전시관 입장</a>
       <div class="hero__scroll" aria-hidden="true">
@@ -50,24 +50,24 @@
     <section id="about" class="about">
       <div class="about__inner">
         <div class="about__label">About the Museum</div>
-        <h2 class="about__heading">천상계에 걸린<br />유일한 갤러리</h2>
+        <h2 class="about__heading">청춘, 교단, 성화로 이어지는<br />유찬 신화의 갤러리</h2>
         <p class="about__text">
-          라파엘박물관은 지상의 순간을 천상의 예술로 번역하는 공간입니다.
-          각 작품은 금빛 프레임 안에서 고요히 호흡하며, 관람객에게
-          영원한 아름다움과 유쾌한 경외를 동시에 선사합니다.
+          라파엘박물관은 흩어진 유찬의 이미지들을 학창시절, 라파엘 종교, 성스러운 종교 작품이라는
+          세 개의 흐름으로 다시 배열한 온라인 전시입니다. 각각의 작품은 농담과 경건함 사이에서
+          하나의 소장품처럼 이름을 얻고, 어두운 갤러리 안에서 새롭게 빛납니다.
         </p>
         <dl class="about__stats">
           <div>
             <dt>소장 작품</dt>
-            <dd id="artwork-count">13</dd>
+            <dd id="artwork-count">45</dd>
           </div>
           <div>
-            <dt>전시 홀</dt>
-            <dd>천상의 원</dd>
+            <dt>전시관</dt>
+            <dd><span id="gallery-count">3</span>개</dd>
           </div>
           <div>
             <dt>관람 등급</dt>
-            <dd>모든 영혼</dd>
+            <dd>전 연령</dd>
           </div>
         </dl>
       </div>
@@ -76,10 +76,10 @@
     <section id="collection" class="collection">
       <header class="collection__header">
         <p class="collection__eyebrow">Permanent Collection</p>
-        <h2 class="collection__title">영원 소장품</h2>
-        <p class="collection__desc">아래로 스크롤하며 작품을 하나씩 감상하세요</p>
+        <h2 class="collection__title">세 개의 전시관</h2>
+        <p class="collection__desc">테마를 고르고 아래로 내려가며 작품을 하나씩 감상하세요.</p>
       </header>
-      <nav id="exhibit-nav" class="exhibit-nav" aria-label="작품 목록"></nav>
+      <nav id="exhibit-nav" class="exhibit-nav" aria-label="전시관 목록"></nav>
       <div id="gallery" class="exhibition"></div>
     </section>
 
@@ -87,12 +87,12 @@
       <div class="visit__card">
         <h2 class="visit__title">관람 안내</h2>
         <ul class="visit__list">
-          <li><strong>운영</strong> 24시간 · 천상계 표준시</li>
+          <li><strong>운영</strong> 24시간 · 온라인 상설전</li>
           <li><strong>입장료</strong> 무료 · 마음의 경의</li>
-          <li><strong>위치</strong> 구름 위 7층, 별빛 홀</li>
+          <li><strong>전시</strong> 청춘의 성물 · 라파엘 교단 연대기 · 성화와 묵시록</li>
         </ul>
         <p class="visit__note">
-          본 박물관의 모든 작품은 라파엘의 축복 아래 보존됩니다.
+          모든 작품은 라파엘박물관의 어두운 금빛 조명 아래 보존됩니다.
         </p>
       </div>
     </section>
@@ -102,7 +102,7 @@
     <p>© 2026 라파엘박물관 · Raphael Museum. All radiance reserved.</p>
   </footer>
 
-  <dialog id="lightbox" class="lightbox" aria-label="작품 상세 보기">
+  <dialog id="lightbox" class="lightbox" aria-label="작품 크게 보기">
     <button class="lightbox__close" type="button" aria-label="닫기">&times;</button>
     <div class="lightbox__frame luxury-frame">
       <span class="luxury-frame__corner luxury-frame__corner--tl" aria-hidden="true"></span>

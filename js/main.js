@@ -9,28 +9,44 @@
   const lightboxTitle = document.getElementById("lightbox-title");
   const lightboxDesc = document.getElementById("lightbox-desc");
   const artworkCountEl = document.getElementById("artwork-count");
+  const galleryCountEl = document.getElementById("gallery-count");
   const navToggle = document.querySelector(".nav__toggle");
   const navLinks = document.querySelector(".nav__links");
   const starCanvas = document.getElementById("starfield");
 
-  if (!Array.isArray(ARTWORKS) || ARTWORKS.length === 0) {
+  const sections = Array.isArray(window.ARTWORK_SECTIONS)
+    ? window.ARTWORK_SECTIONS
+    : typeof ARTWORK_SECTIONS !== "undefined" && Array.isArray(ARTWORK_SECTIONS)
+      ? ARTWORK_SECTIONS
+      : [];
+
+  const allArtworks = sections.flatMap(function (section, sectionIndex) {
+    return section.artworks.map(function (art, artworkIndex) {
+      return {
+        ...art,
+        sectionId: section.id,
+        sectionTitle: section.title,
+        sectionNumber: sectionIndex + 1,
+        artworkNumber: artworkIndex + 1,
+        sectionTotal: section.artworks.length,
+      };
+    });
+  });
+
+  if (!sections.length || !allArtworks.length) {
     if (galleryEl) {
       galleryEl.innerHTML =
-        '<p class="exhibition__empty">소장 작품을 불러올 수 없습니다. assets 폴더를 확인해 주세요.</p>';
+        '<p class="exhibition__empty">소장 작품을 불러오지 못했습니다. assets 폴더와 js/artworks.js를 확인해 주세요.</p>';
     }
     return;
   }
 
   if (artworkCountEl) {
-    artworkCountEl.textContent = String(ARTWORKS.length);
+    artworkCountEl.textContent = String(allArtworks.length);
   }
 
-  function sortArtworks(list) {
-    return [...list].sort(function (a, b) {
-      if (a.featured && !b.featured) return -1;
-      if (!a.featured && b.featured) return 1;
-      return 0;
-    });
+  if (galleryCountEl) {
+    galleryCountEl.textContent = String(sections.length);
   }
 
   function encodePath(path) {
@@ -53,27 +69,63 @@
     return String(num).padStart(width, "0");
   }
 
-  // 작품별 전시 홀 생성
-  function buildExhibition() {
-    if (!galleryEl) return;
+  function getNextArtwork(currentId) {
+    const index = allArtworks.findIndex(function (art) {
+      return art.id === currentId;
+    });
+    return index >= 0 ? allArtworks[index + 1] : null;
+  }
 
-    const sorted = sortArtworks(ARTWORKS);
-    const total = sorted.length;
+  function renderSection(section, sectionIndex) {
+    const sectionNumber = sectionIndex + 1;
+    const intro =
+      '<section class="gallery-section" id="section-' +
+      escapeHtml(section.id) +
+      '" data-section-id="' +
+      escapeHtml(section.id) +
+      '">' +
+      '<header class="gallery-section__header">' +
+      '<p class="gallery-section__kicker">제' +
+      sectionNumber +
+      "관 · " +
+      escapeHtml(section.theme) +
+      "</p>" +
+      '<h3 class="gallery-section__title">' +
+      escapeHtml(section.title) +
+      "</h3>" +
+      '<p class="gallery-section__title-en">' +
+      escapeHtml(section.titleEn) +
+      "</p>" +
+      '<p class="gallery-section__desc">' +
+      escapeHtml(section.description) +
+      "</p>" +
+      '<p class="gallery-section__count">' +
+      section.artworks.length +
+      " works</p>" +
+      "</header>";
 
-    galleryEl.innerHTML = sorted
-      .map(function (art, i) {
-        const num = i + 1;
-        const indexLabel = padIndex(num, total) + " / " + padIndex(total, total);
-        const nextArt = sorted[i + 1];
+    const exhibits = section.artworks
+      .map(function (art, artworkIndex) {
+        const hydrated = allArtworks.find(function (item) {
+          return item.id === art.id;
+        });
+        const num = artworkIndex + 1;
+        const indexLabel =
+          "제" +
+          sectionNumber +
+          "관 " +
+          padIndex(num, section.artworks.length) +
+          " / " +
+          padIndex(section.artworks.length, section.artworks.length);
+        const nextArt = getNextArtwork(art.id);
         const nextBlock = nextArt
           ? '<a class="exhibit__next" href="#exhibit-' +
             escapeHtml(nextArt.id) +
             '">다음 작품 · ' +
             escapeHtml(nextArt.title) +
-            " ↓</a>"
-          : '<a class="exhibit__next" href="#visit">관람 안내로 →</a>';
-
-        const visibleClass = i === 0 ? " exhibit--visible" : "";
+            "</a>"
+          : '<a class="exhibit__next" href="#visit">관람 안내로</a>';
+        const visibleClass = sectionIndex === 0 && artworkIndex === 0 ? " exhibit--visible" : "";
 
         return (
           '<article class="exhibit' +
@@ -82,9 +134,11 @@
           escapeHtml(art.id) +
           '" data-id="' +
           escapeHtml(art.id) +
+          '" data-section-id="' +
+          escapeHtml(section.id) +
           '">' +
           '<div class="exhibit__inner">' +
-          '<p class="exhibit__index">작품 ' +
+          '<p class="exhibit__index">' +
           indexLabel +
           "</p>" +
           '<div class="exhibit__stage">' +
@@ -98,13 +152,13 @@
           '<div class="luxury-frame__gilt">' +
           '<button class="exhibit__frame-btn" type="button" aria-label="' +
           escapeHtml(art.title) +
-          ' 확대 보기">' +
+          ' 크게 보기">' +
           '<img src="' +
           encodePath(art.file) +
           '" alt="' +
           escapeHtml(art.title) +
           '" loading="' +
-          (i < 2 ? "eager" : "lazy") +
+          (sectionIndex === 0 && artworkIndex < 2 ? "eager" : "lazy") +
           '" />' +
           "</button>" +
           "</div></div></div>" +
@@ -115,7 +169,7 @@
           '<span class="exhibit__era">' +
           escapeHtml(art.era) +
           "</span>" +
-          "<h3 class=\"exhibit__title\">" +
+          '<h3 class="exhibit__title">' +
           escapeHtml(art.title) +
           "</h3>" +
           '<p class="exhibit__title-en">' +
@@ -133,43 +187,57 @@
       })
       .join("");
 
+    return intro + exhibits + "</section>";
+  }
+
+  function buildExhibition() {
+    if (!galleryEl) return;
+
+    galleryEl.innerHTML = sections.map(renderSection).join("");
+
     galleryEl.querySelectorAll(".exhibit__frame-btn").forEach(function (btn) {
       btn.addEventListener("click", onFrameClick);
     });
 
-    initExhibitNav(sorted);
+    initExhibitNav();
     initExhibitReveal();
-    initExhibitNavHighlight(sorted);
+    initExhibitNavHighlight();
   }
 
-  function initExhibitNav(artworks) {
+  function initExhibitNav() {
     if (!exhibitNavEl) return;
 
-    exhibitNavEl.innerHTML = artworks
-      .map(function (art, i) {
+    exhibitNavEl.innerHTML = sections
+      .map(function (section, i) {
         return (
-          '<a class="exhibit-nav__link" href="#exhibit-' +
-          escapeHtml(art.id) +
+          '<a class="exhibit-nav__link" href="#section-' +
+          escapeHtml(section.id) +
           '" data-id="' +
-          escapeHtml(art.id) +
+          escapeHtml(section.id) +
           '">' +
-          padIndex(i + 1, artworks.length) +
-          ". " +
-          escapeHtml(art.title) +
+          '<span class="exhibit-nav__num">0' +
+          (i + 1) +
+          "</span>" +
+          '<span class="exhibit-nav__text">' +
+          escapeHtml(section.title) +
+          "</span>" +
+          '<span class="exhibit-nav__meta">' +
+          section.artworks.length +
+          "점</span>" +
           "</a>"
         );
       })
       .join("");
   }
 
-  // 스크롤 시 전시 홀 페이드인
   function initExhibitReveal() {
-    const exhibits = galleryEl.querySelectorAll(".exhibit");
-    if (!exhibits.length) return;
+    const reveals = galleryEl.querySelectorAll(".gallery-section__header, .exhibit");
+    if (!reveals.length) return;
 
     if (!("IntersectionObserver" in window)) {
-      exhibits.forEach(function (el) {
+      reveals.forEach(function (el) {
         el.classList.add("exhibit--visible");
+        el.classList.add("gallery-section__header--visible");
       });
       return;
     }
@@ -178,25 +246,28 @@
       function (entries) {
         entries.forEach(function (entry) {
           if (entry.isIntersecting) {
-            entry.target.classList.add("exhibit--visible");
+            if (entry.target.classList.contains("gallery-section__header")) {
+              entry.target.classList.add("gallery-section__header--visible");
+            } else {
+              entry.target.classList.add("exhibit--visible");
+            }
           }
         });
       },
-      { threshold: 0.2, rootMargin: "0px 0px -8% 0px" }
+      { threshold: 0.18, rootMargin: "0px 0px -8% 0px" }
     );
 
-    exhibits.forEach(function (el) {
+    reveals.forEach(function (el) {
       observer.observe(el);
     });
   }
 
-  // 현재 보고 있는 작품 네비 강조
-  function initExhibitNavHighlight(artworks) {
+  function initExhibitNavHighlight() {
     if (!exhibitNavEl || !("IntersectionObserver" in window)) return;
 
     const navLinks = exhibitNavEl.querySelectorAll(".exhibit-nav__link");
-    const exhibits = galleryEl.querySelectorAll(".exhibit");
-    let activeId = artworks[0] ? artworks[0].id : "";
+    const sectionEls = galleryEl.querySelectorAll(".gallery-section");
+    let activeId = sections[0] ? sections[0].id : "";
 
     function setActive(id) {
       if (!id || id === activeId) return;
@@ -209,32 +280,34 @@
     const observer = new IntersectionObserver(
       function (entries) {
         const visible = entries
-          .filter(function (e) {
-            return e.isIntersecting;
+          .filter(function (entry) {
+            return entry.isIntersecting;
           })
           .sort(function (a, b) {
             return b.intersectionRatio - a.intersectionRatio;
           });
 
         if (visible[0]) {
-          setActive(visible[0].target.dataset.id);
+          setActive(visible[0].target.dataset.sectionId);
         }
       },
-      { threshold: [0.35, 0.5, 0.65], rootMargin: "-20% 0px -20% 0px" }
+      { threshold: [0.12, 0.24, 0.36], rootMargin: "-18% 0px -35% 0px" }
     );
 
-    exhibits.forEach(function (el) {
+    sectionEls.forEach(function (el) {
       observer.observe(el);
     });
 
-    setActive(activeId);
+    navLinks.forEach(function (link) {
+      link.classList.toggle("exhibit-nav__link--active", link.dataset.id === activeId);
+    });
   }
 
   function onFrameClick(event) {
     const exhibit = event.currentTarget.closest(".exhibit");
     if (!exhibit) return;
     const artId = exhibit.dataset.id;
-    const art = ARTWORKS.find(function (item) {
+    const art = allArtworks.find(function (item) {
       return item.id === artId;
     });
     if (!art) return;
@@ -252,8 +325,7 @@
 
     lightboxImage.onerror = function () {
       if (lightboxDesc) {
-        lightboxDesc.textContent =
-          "이미지를 불러오지 못했습니다. 파일 경로를 확인해 주세요.";
+        lightboxDesc.textContent = "이미지를 불러오지 못했습니다. 파일 경로를 확인해 주세요.";
       }
     };
 

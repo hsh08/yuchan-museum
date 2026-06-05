@@ -414,36 +414,163 @@ body {
 
 /* 작품 목록 네비 */
 .exhibit-nav {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 0.5rem 1rem;
-  max-width: 42rem;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+  max-width: 58rem;
   margin: 0 auto 4rem;
   padding: 0 1.5rem;
 }
 
 .exhibit-nav__link {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 4.25rem;
   font-family: var(--font-display);
-  font-size: 0.65rem;
-  letter-spacing: 0.12em;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
   color: var(--color-mist);
   text-decoration: none;
-  padding: 0.35rem 0;
-  border-bottom: 1px solid transparent;
-  transition: color 0.3s, border-color 0.3s;
+  padding: 0.95rem 1rem;
+  border: 1px solid rgba(212, 175, 55, 0.22);
+  background:
+    linear-gradient(180deg, rgba(17, 16, 26, 0.62), rgba(5, 5, 10, 0.5));
+  backdrop-filter: blur(10px);
+  box-shadow:
+    inset 0 1px 0 rgba(245, 230, 184, 0.06),
+    0 18px 44px rgba(0, 0, 0, 0.22);
+  transition: color 0.3s, border-color 0.3s, box-shadow 0.3s, transform 0.3s var(--ease-out);
 }
 
 .exhibit-nav__link:hover,
 .exhibit-nav__link--active {
   color: var(--color-gold);
-  border-bottom-color: var(--color-gold);
+  border-color: rgba(212, 175, 55, 0.58);
+  box-shadow:
+    inset 0 1px 0 rgba(245, 230, 184, 0.1),
+    0 20px 56px rgba(0, 0, 0, 0.32),
+    0 0 42px rgba(212, 175, 55, 0.12);
+  transform: translateY(-2px);
+}
+
+.exhibit-nav__num {
+  color: var(--color-gold-light);
+  opacity: 0.78;
+}
+
+.exhibit-nav__text {
+  font-family: var(--font-ko);
+  font-size: 0.95rem;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+}
+
+.exhibit-nav__meta {
+  font-family: var(--font-ko);
+  font-size: 0.72rem;
+  letter-spacing: 0.02em;
+  color: rgba(248, 244, 236, 0.48);
 }
 
 /* 전시 홀 */
 .exhibition {
   display: flex;
   flex-direction: column;
+}
+
+.gallery-section {
+  position: relative;
+}
+
+.gallery-section + .gallery-section {
+  margin-top: 3rem;
+}
+
+.gallery-section__header {
+  position: relative;
+  z-index: 2;
+  min-height: 72vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 7rem 1.5rem 4rem;
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.9s var(--ease-out), transform 0.9s var(--ease-out);
+}
+
+.gallery-section__header--visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.gallery-section__header::before {
+  content: "";
+  position: absolute;
+  width: min(80vw, 48rem);
+  height: min(64vw, 28rem);
+  background:
+    radial-gradient(ellipse at center, rgba(212, 175, 55, 0.13), transparent 68%);
+  filter: blur(40px);
+  pointer-events: none;
+}
+
+.gallery-section__kicker,
+.gallery-section__title,
+.gallery-section__title-en,
+.gallery-section__desc,
+.gallery-section__count {
+  position: relative;
+  z-index: 1;
+}
+
+.gallery-section__kicker {
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  letter-spacing: 0.28em;
+  color: var(--color-gold);
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+.gallery-section__title {
+  font-family: var(--font-ko);
+  font-size: clamp(2.25rem, 6vw, 4rem);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--color-gold-light);
+  margin-bottom: 0.65rem;
+  filter: drop-shadow(0 0 24px rgba(212, 175, 55, 0.18));
+}
+
+.gallery-section__title-en {
+  font-family: var(--font-display);
+  font-size: clamp(0.8rem, 2vw, 1.05rem);
+  letter-spacing: 0.38em;
+  color: rgba(248, 244, 236, 0.58);
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+}
+
+.gallery-section__desc {
+  max-width: 34rem;
+  font-family: var(--font-ko);
+  font-weight: 300;
+  color: var(--color-mist);
+  line-height: 1.9;
+}
+
+.gallery-section__count {
+  margin-top: 1.5rem;
+  font-family: var(--font-display);
+  font-size: 0.65rem;
+  letter-spacing: 0.28em;
+  color: var(--color-gold);
+  text-transform: uppercase;
 }
 
 .exhibit {
@@ -997,7 +1124,17 @@ body {
   }
 
   .exhibit-nav {
-    gap: 0.35rem 0.75rem;
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .exhibit-nav__link {
+    min-height: 3.75rem;
+  }
+
+  .gallery-section__header {
+    min-height: 60vh;
+    padding: 5rem 1rem 3rem;
   }
 
   .about__stats {
